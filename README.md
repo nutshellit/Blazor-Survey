@@ -9,4 +9,6 @@ I wanted to see how I could mix up F# and C# in a sample Blazor app, F# on the s
 You can setup a Survey definition with sections and 4 types of questions within those sections. Once you make the survey definition live you can add complete one or more survey responses based on survey definition. Clearly in a real world app you would do survey admin in one place and survey responses in another.  Please forgive brutal css design
 
 ## Build and Run
-From the root directory you can ??
+From the root directory you can run buildseedrun.bat and it should build, seed the app and run. You can also run from visual studio.
+
+## ??

@@ -13,14 +13,14 @@ Clearly in a real world app you would do survey admin in one place and survey re
 Please forgive brutal css design, send me a PR if you can improve.
 
 ### Main Screen
-![Main Screen](/docs/MainScreen.png)
+![Main Screen](Docs/EditSurveyDefinition.PNG)
 
 ### Survey Definition Screen 
-![Survey Definition] (/docs/EditSurveyDefinition.PNG)
+![Survey Definition](Docs/EditSurveyDefinition.PNG)
 
 ### Survey Response
-![Edit Question Response] (/docs/SurveyResponse1.png)
-![Response overview] (/docs/surveyresponse2.png)
+![Edit Question Response](Docs/SurveyResponse1.png)
+![Response overview](Docs/surveyresponse2.png)
 
 ## Build and Run
 From the root directory you can run buildseedrun.bat and it should build, seed the app and run. You can also run from visual studio.

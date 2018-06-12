@@ -19,3 +19,6 @@ If you have not run Blazor on your system before then head over here to [Blazor 
  * Sqlite for storage
  * Chessie for validation [ROP] (https://fsharpforfunandprofit.com/rop/)
  * Expecto for testing - (not very many tests, but was good to drive out the initial Survey Definition model)
+ 
+ ## See also
+ * [Trail] (https://github.com/panesofglass/trail) if you want to go all in with F# on Blazor

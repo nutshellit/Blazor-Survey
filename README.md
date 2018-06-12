@@ -2,7 +2,7 @@
 
 ## A hybrid F#/C# blazor sample app to kick the tyres of blazor.
 I wanted to see how I could mix up F# and C# in a sample Blazor app, F# on the server, C# on the client but be able to make calls into shared F# code on the client. I have found that when building backend services in F# one often has to work with frontend developers that only work in C#/Javascript so one has to deal with where C# world meets the F# world. This is what I built as a first attempt at hacking around in Blazor and hopefully it is of some interest to someoue out there.
-* The biggest issue that I encountered was the deserialisation of FSharp records on blazor. As I understand Blazor comes with a library called SimpleJson which does not deserialze f# record or union types.
+* The biggest issue that I encountered was the deserialisation of FSharp records on blazor. As I understand Blazor comes with a library called SimpleJson which does not deserialise f# record or union types.
   * One way to solve this is by using f# classes rather than records for dtoing between client and api.
   * I was able to serialise simple f# command records on blazor and send to api endpoint.
 * Client side there is no problem calling into and consuming F# types from Blazor C# so one can pack as much F# magic into a Blazor app as required.

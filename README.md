@@ -19,8 +19,8 @@ Please forgive brutal css design, send me a PR if you can improve.
 ![Survey Definition](Docs/EditSurveyDefinition.PNG)
 
 ### Survey Response
-![Edit Question Response](Docs/SurveyResponse1.png)
-![Response overview](Docs/surveyresponse2.png)
+![Edit Question Response](Docs/SurveyResponse1.PNG)
+![Response overview](Docs/SurveyResponse2.PNG)
 
 ## Build and Run
 From the root directory you can run buildseedrun.bat and it should build, seed the app and run. You can also run from visual studio.

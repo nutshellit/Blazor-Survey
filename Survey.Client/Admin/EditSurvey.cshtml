@@ -1,0 +1,48 @@
+﻿@page "/editsurvey/{Id}"
+@page "/editsurvey"
+@inherits EditSurveyPage
+
+<h1>Edit Survey</h1>
+
+@if (survey == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div id="editsurvey">
+        <label>Survey Name:</label>
+        <div class="editsurvey_field">
+            @survey.Name
+            @if (CanEdit)
+            {
+            <button class="btn btn-outline-warning" id="btnmakelive"  onclick=@(() => MakeLive()) >
+            Make Live</button>
+            }
+        </div>
+        <label>Survey Intro:</label> <div class="editsurvey_field"> @survey.Intro</div>
+        <label>Edit Status:</label> <div class="editsurvey_field"> @survey.Status</div>
+        <label>Sections:</label>
+        <div class="editsurvey_field">
+            @if (CanEdit)
+            {
+            <a class="btn btn-outline-primary float-right" href="/addsurveysection/@survey.SurveyId">
+                 Add Section <span class="oi oi-plus"></span>
+            </a>
+            }
+        </div>
+        <div class="grid_1_to_3">
+            @foreach (var section in survey.Sections)
+            {
+                <ShowSection 
+                            Section=section 
+                             DeleteQuestionAction=DeleteQuestion
+                             MoveItemUp=MoveItemUp
+                             MoveItemDown=MoveItemDown
+                             CanEdit =CanEdit
+                             ></ShowSection>
+            }
+        </div>
+    </div>
+
+}

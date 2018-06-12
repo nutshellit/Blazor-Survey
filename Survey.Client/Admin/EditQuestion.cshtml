@@ -1,0 +1,89 @@
+﻿@page "/editquestion/{SectionId}"
+@inherits EditQuestionPage
+@using Survey.Shared
+
+@if (survey == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>Add Question to section : @survey.Name  </h1>
+    <form class="editsection" novalidate="novalidate">
+        <label>Section Name:</label>
+        <div class="editsection_field">
+            @section.SectionName
+        </div>
+        @*Question Type*@
+        <label>Question Type:</label>
+        <select name="questiontype" class="form-control editsection_field col-6" bind="@QuestionTypeId">
+            @foreach (var item in QuestionTypes)
+            {
+                <option value="@((int)item)">@item.ToString()</option>
+            }
+        </select>
+        @*Question Text*@
+        <label>Question Text:</label>
+        <input name="questiontext" bind="@QuestionText" class="form-control editsection_field" />
+        @*Question Help*@
+        <label>Question Help:</label>
+        <input name="questionhelp" bind="@QuestionHelp" class="form-control editsection_field" />
+
+        @switch ((QuestionTypeEnum)QuestionTypeId)
+        {
+            case QuestionTypeEnum.Text:
+                @*<label>Text q</label>*@
+                break;
+            case QuestionTypeEnum.SingleChoice:
+            case QuestionTypeEnum.MultiChoice:
+                <label>Choices</label>
+                <div class="editsection_field col-6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Text</th>
+                                <th>Value</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Options)
+                            {
+                                <tr>
+                                    <td>@item.Text</td>
+                                    <td>@item.Value</td>
+                                    <td></td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>
+                                    <input bind="@OptionTxt" />
+                                </td>
+                                <td>
+                                    <input bind="@OptionVal" />
+                                </td>
+                                <td>
+                                    <button class="btn btn_sm" onclick="@AddOption">Add Option</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                break;
+            case QuestionTypeEnum.Rating:
+                <label>Lower Rating</label>
+                <input name="ratingmin" bind="@RatingMin" class="form-control editquestion_field" />
+                <label>Upper Rating</label>
+                <input name="ratingmax" bind="@RatingMax" class="form-control editquestion_field" />
+                break;
+
+        }
+
+        <div class="editquestion_field">
+            <span class="txtinfo">@ValidationMessage</span>
+            <a href="/editsurvey" class="btn btn-outline-secondary">Cancel</a>
+            <button class="btn btn-primary" onclick="@OnSaveClick">Save</button>
+        </div>
+    </form>
+
+}

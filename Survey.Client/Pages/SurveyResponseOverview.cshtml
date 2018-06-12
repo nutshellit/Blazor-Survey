@@ -1,0 +1,174 @@
+﻿@page "/surveyresponseoverview/{SurveyResponseId}"
+@inherits SurveyResponseOverviewPage
+@using Survey.Shared
+@using static Survey.Shared.SurveyVM
+@using static Survey.Shared.SurveyResponseVM
+@using Survey.Client.ComponentCode
+
+@if (SurveyResponse == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>Survey Response Overview for @Survey().Name</h1>
+    <div id="editsurvey">
+        <label>Survey Intro:</label> <div class="editsurvey_field"> @Survey().Intro</div>
+        <label>Status :</label> <div class="editsurvey_field">@SurveyResponse.Status</div>
+        <label>Date :</label> <div class="editsurvey_field">@($"{SurveyResponse.DateStarted.ToShortDateString()} - {SurveyResponse.DateStarted.ToShortTimeString()}") </div>
+        <label>Sections:</label>
+        <div class="editsurvey_field"></div>
+        <div class="grid_1_to_3">
+            @foreach (var section in Survey().Sections)
+            {
+                <div class="editsection">
+                    <label>Section Name: </label>
+                    <div class="editsection_field">
+                        @section.SectionName
+                    </div>
+                    <label>Section Intro : </label>
+                    <div class="editsection_field">
+                        @section.SectionIntro
+                    </div>
+                    <label>Questions:</label>
+                    <div class="grid_1_to_3">
+                        @foreach (var question in section.Questions.OrderBy(n => n.Order))
+                        {
+                            var response = Response(question.QuestionId);
+                            string answerStatus = response.IsAnswered() ? "Answered" : "Unanswered";
+                        <div class="editquestion">
+                            <label>Question : </label>
+                            <div class="editquestion_field">
+                                @if (SurveyResponse.Status != SurveyResponseStatusEnum.Submitted && SurveyResponse.Status != SurveyResponseStatusEnum.Cancelled)
+                                {
+                                    <a class="btn btn-outline-primary" href="/editsurveyquestion/@SurveyResponse.SurveyResponseId/@response.Question.QuestionId">
+                                     <span class="oi oi-pencil"></span>   @question.Text
+                                        </a>
+                                }
+                                else
+                                { 
+                                    @question.Text
+                                }
+                            </div>
+                            <label>Type</label>
+                            <div class="editquestion_field">@question.QuestionType</div>
+                            <label>Help:</label>
+                            <div class="editquestion_field">@question.Help</div>
+
+                            @if (question.QuestionType == QuestionTypeEnum.Text)
+                            {
+                                <label>Answer : (@answerStatus) </label>
+                                <div class="editquestion_field">
+                                    @TxtAnswer(question.QuestionId)
+                                </div>
+                            }
+
+                            @if (question.QuestionType == QuestionTypeEnum.Rating)
+
+                            {
+                                <label>Rating Min:/Max: </label>
+                                <div class="editquestion_field">@question.RatingMin / @question.RatingMax </div>
+                                <label>Answer : (@answerStatus) </label>
+                                <div class="editquestion_field">
+                                    @RatingAnswer(question.QuestionId)
+                                </div>
+                            }
+                            @if (question.QuestionType == QuestionTypeEnum.SingleChoice
+                                             || question.QuestionType == QuestionTypeEnum.MultiChoice)
+                            {
+                                <label>Options: </label>
+                                @foreach (var opt in question.Options)
+                                {
+                                    <div class="editquestion_field">
+                                        @opt.Text - @opt.Value
+                                    </div>
+                                }
+                                <label>Answer : (@answerStatus) </label>
+
+                                @if (question.QuestionType == QuestionTypeEnum.SingleChoice)
+                                { 
+                                    <div class="editquestion_field">
+                                        @SingleOptionAnswer(question.QuestionId)
+                                    </div>
+                                }
+                                @if (question.QuestionType == QuestionTypeEnum.MultiChoice)
+                                { 
+                                    <div class="editquestion_field">
+                                        @MultiOptionAnswer(question.QuestionId)
+                                    </div>
+                                }
+
+                            }
+                        </div>
+                        }
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+@functions{
+    SurveyVM.SurveyEditDTO Survey()
+    {
+        return SurveyResponse.SurveyDefinition;
+    }
+
+    SurveyQuestionResponseDTO Response(Guid questionId)
+    {
+        return SurveyResponse.EditScreens().FirstOrDefault(n => n.Question.QuestionId == questionId);
+    }
+
+
+
+    string TxtAnswer(Guid responseId)
+    {
+        var response = Response(responseId);
+        
+        if (response.QuestionResponse.IsSome<QuestionResponseDTO>())
+            return response.QuestionResponse.Value.TextResponse;
+        return "";
+    }
+
+    string RatingAnswer(Guid responseId)
+    {
+        var response = Response(responseId);
+        if (response.QuestionResponse.IsSome<QuestionResponseDTO>())
+            return response.QuestionResponse.Value.RatingResponse.ToString();
+        return "";
+    }
+
+    string SingleOptionAnswer(Guid responseId)
+    {
+        var response = Response(responseId);
+        if (response.QuestionResponse.IsSome<QuestionResponseDTO>())
+        {
+            var rid =  response.QuestionResponse.Value.SingleOptionResponseOptionId;
+            var opt = response.Question.Options.FirstOrDefault(n => n.OptionId == rid);
+            return $"{opt.Text} - {opt.Value} ";
+        }
+        return "";
+    }
+    string MultiOptionAnswer(Guid responseId)
+    {
+        var response = Response(responseId);
+        if (response.QuestionResponse.IsSome<QuestionResponseDTO>())
+        {
+            var rid = response.QuestionResponse.Value.MultiOptionResponseOptionIds;
+            var selectedOptions = response.Question.Options
+                                                .Where(n => rid.Contains(n.OptionId))
+                                                .Select(opt => $"{opt.Text} - {opt.Value}") ;
+
+            return string.Join(" /", selectedOptions);
+        }
+        return "";
+    }
+
+}
+
+
+
+
+

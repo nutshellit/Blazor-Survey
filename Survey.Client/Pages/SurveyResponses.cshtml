@@ -1,0 +1,25 @@
+﻿@page "/surveyresponses/{Id}"
+@inherits SurveyResponsesPage
+
+
+<h1>Survey Responses for @SurveyName</h1>
+<div><a class="btn btn-outline-primary" href="/addsurveyresponse/@Id">Add Survey Response</a></div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Responses)
+        {
+            <tr>
+                <td>@($"{item.DateStarted.ToShortDateString()} - {item.DateStarted.ToShortTimeString()} ") </td>
+                <td>@item.Status</td>
+                <td><a class="btn btn-outline-secondary" href="/editsurveyresponse/@item.SurveyResponseId">View</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,43 @@
+﻿@page "/adminsurveydefinitions"
+@inherits  AdminSurveyDefinitionsPage
+
+
+<h1>Survey Definitions</h1>
+@if (surveys == null)
+{
+    <p><em>Loading...</em></p>
+}
+else {
+    <div><a class="btn btn-outline-primary" href="/addsurvey"> <span class="oi oi-plus"></span> Add Survey Definition</a></div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th> </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in surveys) { 
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.Status
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-secondary" href="/editsurvey/@item.SurveyId"><span class="oi oi-pencil"></span> Edit</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-secondary" href="/surveyresponses/@item.SurveyId"><span class="oi oi-list"></span> Responses</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+

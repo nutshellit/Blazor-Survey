@@ -1,0 +1,82 @@
+﻿@using static Survey.Shared.SurveyVM
+
+<div class="editsection">
+    <label>Section Name: </label>
+    <div class="editsection_field">
+        @Section.SectionName
+        @if (CanEdit)
+        {
+            @if (CanDeleteSection())
+            {
+                <a class="btn btn-primary btn-sm float-right" href="/deletesurveysection/@Section.SectionId">Delete Section</a>
+            }
+            <a class="btn btn-outline-primary btn-sm float-right" href="/editquestion/@Section.SectionId"><span class="oi oi-plus"></span> Add Question</a>
+
+            <button class="btn btn-sm btn-outline-info float-right" onclick=@(() => MoveItemUp(Section.SectionId))>Up <span class="oi oi-arrow-circle-top"></span> </button>
+            <button class="btn btn-sm btn-outline-info float-right" onclick=@(() => MoveItemDown(Section.SectionId))>Down <span class="oi oi-arrow-circle-bottom"></span> </button>
+        }
+    </div>
+    <label>Section Intro:</label>
+    <div class="editsection_field">@Section.SectionIntro</div>
+    <label>Questions:</label>
+    <div class="grid_1_to_3">
+        @foreach (var question in Section.Questions.OrderBy(n => n.Order))
+        {
+            <div class="editquestion">
+                <label>Question:</label>
+                <div class="editquestion_field">
+                    @question.Text (@question.Order)
+                    @if (CanEdit)
+                    {
+                    <button class="btn btn-outline-primary btn-sm float-right" onclick=@(() => DeleteQuestionAction(question) )><span class="oi oi-delete"></span> Delete Question</button>
+                    <button class="btn btn-sm btn-outline-info float-right" onclick=@(() => MoveItemUp(question.QuestionId)) >Up <span class="oi oi-arrow-circle-top"></span> </button>
+                    <button class="btn btn-sm btn-outline-info float-right" onclick=@(() => MoveItemDown(question.QuestionId)) >Down <span class="oi oi-arrow-circle-bottom"></span> </button>
+                    }
+                </div>
+                <label>Type</label>
+                <div class="editquestion_field">@question.QuestionType</div>
+                <label>Help:</label>
+                <div class="editquestion_field">@question.Help</div>
+                @if (question.QuestionType == Survey.Shared.QuestionTypeEnum.Rating)
+                {
+                    <label>Rating Min:/Max: </label>
+                    <div class="editquestion_field">@question.RatingMin / @question.RatingMax </div>
+                }
+                @if (question.QuestionType == Survey.Shared.QuestionTypeEnum.SingleChoice
+                                       || question.QuestionType == Survey.Shared.QuestionTypeEnum.MultiChoice)
+                {
+                    <label>Options: </label>
+                    @foreach (var opt in question.Options)
+                    {
+                        <div class="editquestion_field">
+                            @opt.Text - @opt.Value
+                        </div>
+                    }
+
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@functions {
+    [Parameter]
+    private SurveySectionEditDTO Section { get; set; }
+
+    [Parameter]
+    private Func<SurveyQuestionEditDTO,Task> DeleteQuestionAction { get; set; }
+
+    [Parameter]
+    private Func<Guid, Task> MoveItemUp { get; set; }
+    [Parameter]
+    private Func<Guid,Task> MoveItemDown { get; set; }
+
+    [Parameter]
+    private bool CanEdit { get; set; }
+
+    bool CanDeleteSection()
+    {
+        return !Section.Questions.Any();
+    }
+
+}

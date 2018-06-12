@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="SurveyDefinitionsCore.fs" />
+    <Compile Include="SurveyEditViewModels.fs" />
+    <Compile Include="SurveyResponseCore.fs" />
+    <Compile Include="SurveyResponseViewModels.fs" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.5.0" />
+    <PackageReference Update="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>

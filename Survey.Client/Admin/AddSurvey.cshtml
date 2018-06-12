@@ -1,0 +1,21 @@
+﻿@page "/addsurvey"
+@inherits AddSurveyPage
+<h1>Add Survey</h1>
+
+<form class="editsection" novalidate="novalidate">
+    <label>Survey Name:</label>
+    <input name="surveyname" class="form-control editquestion_field" bind="@SurveyName" />
+    <label>Survey Intro:</label>
+    <input name="surveyintro" class="form-control editquestion_field" bind="@SurveyIntro" />
+    <div class="editquestion_field">
+        <span class="txtinfo">@ValidationMessage</span>
+        <a class="btn btn-outline-secondary" href="/adminsurveydefinitions" >Cancel</a>
+        <button class="btn btn-primary" onclick="@OnSaveClick">Save</button>
+    </div>
+</form>
+
+
+
+@functions {
+    
+}

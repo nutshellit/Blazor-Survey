@@ -1,0 +1,25 @@
+﻿@page "/addsurveysection/{Id}"
+@inherits AddSectionPage
+
+@if (survey == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>Add Survey Section : @survey.Name  </h1>
+    <form class="editsection" novalidate="novalidate">
+        <label>Section Name:</label>
+
+        <input name="sectionname" bind="@SectionName" class="form-control editsection_field" />
+
+        <label>Section Intro:</label>
+        <input name="sectionintro" bind="@SectionIntro" class="form-control editsection_field" />
+        <div class="editquestion_field">
+            <span class="txtinfo">@ValidationMessage</span>
+            <a href="/editsurvey" class="btn btn-default">Cancel</a>
+            <button class="btn btn-primary" onclick="@OnSaveClick">Save</button>
+        </div>
+    </form>
+
+}

@@ -1,0 +1,28 @@
+﻿@page "/deletesurveysection/{Id}"
+@inherits DeleteSectionPage
+
+@if (survey == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>Confirm delete of survey section : @survey.Name  </h1>
+    <form class="editsection" novalidate="novalidate">
+        <label>Section Name:</label>
+        <div class="editsection_field" >
+            @section.SectionName
+        </div>
+
+        <label>Section Intro:</label>
+        <div class="editsection_field">
+            @section.SectionIntro
+        </div>
+        <div class="editquestion_field">
+            <span class="txtinfo">@ValidationMessage</span>
+            <a href="/editsurvey" class="btn btn-default">Cancel</a>
+            <button class="btn btn-primary" onclick="@OnDeleteClick">Delete</button>
+        </div>
+    </form>
+
+}

@@ -1,0 +1,139 @@
+﻿@page "/addsurveyresponse/{SurveyId}"
+@page "/editsurveyresponse/{SurveyResponseId}"
+@page "/editsurveyquestion/{SurveyResponseId}/{QuestionId}"
+
+@inherits EditSurveyResponsePage
+@using Survey.Shared
+@using Survey.Client.ComponentCode
+
+@if (SurveyResponse == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>Survey Response for @SurveyName</h1>
+    <p> @SurveyIntro</p>
+
+    <div>
+        Response Status @Response.ResponseStatus
+        <a class="btn btn-outline-info" href="/surveyresponseoverview/@SurveyResponse.SurveyResponseId"><span class="oi oi-spreadsheet"></span> Go to Overview</a>
+        @if (Response.ResponseStatus == SurveyResponseStatusEnum.Completed)
+        {
+            <button class="btn btn-primary" onclick="@OnSubmit">Submit</button>
+        }
+        @if (Response.ResponseStatus == SurveyResponseStatusEnum.Started)
+        {
+            <button class="btn btn-outline-danger" onclick="@OnCancel"><span class="oi oi-x"></span> Cancel Response</button>
+
+        }
+    </div>
+    <div class="editsection">
+        <label>Section Name : </label>
+        <div class="editsection_field">
+            @Response.SectionName
+        </div>
+        <label>Section Intro : </label>
+        <div class="editsection_field">
+            todo intro
+        </div>
+        @if (Response.Question.QuestionType == QuestionTypeEnum.Text)
+        {
+            <label> @Response.Question.Text </label>
+            <input name="txtquestion" bind="@TxtAnswer" class="form-control editsection_field" />
+        }
+        @if (Response.Question.QuestionType == QuestionTypeEnum.Rating)
+        {
+            <label> @Response.Question.Text </label>
+            <div class="editquestion_field">
+                <div class="row">
+                    <div class="col-1">
+                        @Response.Question.RatingMin
+                    </div>
+                    <div class="col-8">
+                        <input type="range" class="form-control-range" name="ratingquestion"
+                               bind="@RatingAnswer"
+                               min="@Response.Question.RatingMin"
+                               max="@Response.Question.RatingMax" />
+                    </div>
+                    <div class="col">
+                        @Response.Question.RatingMax
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5"></div>
+                    <div class="col-1">@RatingAnswer</div>
+                    <div class="col-6"></div>
+
+                </div>
+            </div>
+        }
+        @if (Response.Question.QuestionType == QuestionTypeEnum.SingleChoice)
+        {
+            <label> @Response.Question.Text </label>
+            <div class="editquestion_field">
+                @foreach (var choice in Response.Question.Options)
+                {
+                    <div class="radio">
+                        @if (IsChecked(choice))
+                        {
+                            <input checked="checked" type="radio" value="@choice.OptionId" onchange="@OnRadioChange" name="optradio" />
+
+                        }
+                        else
+                        {
+                            <input type="radio" value="@choice.OptionId" onchange="@OnRadioChange" name="optradio" />
+                        }
+                        <label> @choice.Text</label>
+                    </div>
+                }
+                @*@SingleOptionAnswer*@
+            </div>
+        }
+
+        @if (Response.Question.QuestionType == QuestionTypeEnum.MultiChoice)
+        {
+            <label> @Response.Question.Text </label>
+            <div class="editquestion_field">
+                @foreach (var choice in MultiOptionAnswers)
+                {
+                    <div class="checkbox">
+                        <input type="checkbox" name="@choice.ChoiceId" bind="@choice.Selected" id="@choice.ChoiceId" />
+                        <label>@choice.ChoiceTxt</label>
+                    </div>
+                }
+
+            </div>
+        }
+
+
+        <div class="editquestion_field">
+            <span class="txtinfo">@ValidationMessage</span>
+            <button class="btn btn-primary" onclick="@PreviousQuestion"><span class="oi oi-chevron-left"></span> Previous</button>
+
+            <a href="/surveyresponses/@SurveyResponse.SurveyDefinition.SurveyId" class="btn btn-outline-secondary">Cancel</a>
+            <button class="btn btn-primary" onclick="@OnSaveClick">Save</button>
+        </div>
+
+    </div>
+}
+
+@functions{
+    bool IsChecked(SurveyVM.SurveyQuestionOptionEditDTO option)
+    {
+        if (Response.QuestionResponse.IsSome<SurveyResponseVM.QuestionResponseDTO>())
+        {
+            SurveyResponseVM.QuestionResponseDTO r = Response.QuestionResponse.Value;
+            if (r.SingleOptionResponseOptionId == option.OptionId)
+            {
+                return true;
+            }
+        }
+        return false;
+
+    }
+}
+
+
+
+

@@ -17,6 +17,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{93CA85
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{1434B9EE-95CA-489F-85E5-7766AE85AAC4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CA309365-64C7-4FCB-BCED-A13A7E06B647}"
+	ProjectSection(SolutionItems) = preProject
+		Build.bat = Build.bat
+		BuildSeedRun.bat = BuildSeedRun.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

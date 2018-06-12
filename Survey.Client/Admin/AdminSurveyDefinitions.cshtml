@@ -31,7 +31,10 @@ else {
                         <a class="btn btn-outline-secondary" href="/editsurvey/@item.SurveyId"><span class="oi oi-pencil"></span> Edit</a>
                     </td>
                     <td>
+                        @if (item.Status == Survey.Shared.SurveyDefinitionStatusEnum.Live)
+                        {
                         <a class="btn btn-outline-secondary" href="/surveyresponses/@item.SurveyId"><span class="oi oi-list"></span> Responses</a>
+                        }
                     </td>
                 </tr>
             }

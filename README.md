@@ -27,12 +27,12 @@ From the root directory you can run buildseedrun.bat and it should build, seed t
 If you have not run Blazor on your system before then head over here to [Blazor site get started](https://blazor.net/docs/get-started.html)
 ## Technologies used
 * Client side
- * Blazor in c# but making calls to shared F# library
+  * Blazor in c# but making calls to shared F# library
 * Server side
- * Asp.Net core api endpoint in F#
- * Sqlite for storage
- * Chessie for validation [ROP](https://fsharpforfunandprofit.com/rop/)
- * Expecto for testing - (not very many tests, but was good to drive out the initial Survey Definition model)
+  * Asp.Net core api endpoint in F#
+  * Sqlite for storage
+  * Chessie for validation [ROP](https://fsharpforfunandprofit.com/rop/)
+  * Expecto for testing - (not very many tests, but was good to drive out the initial Survey Definition model)
  
  ## See also
  * [Trail](https://github.com/panesofglass/trail) if you want to go all in with F# on Blazor
